@@ -40,6 +40,8 @@
   </n-dropdown>
   <!-- 登录弹窗 -->
   <Login ref="loginRef" />
+  <!-- 全局设置 -->
+  <settings ref="settingsRef" />
 </template>
 
 <script setup>
@@ -49,12 +51,14 @@ import { NIcon, NText, NNumberAnimation, NButton } from "naive-ui";
 import { siteData, siteSettings } from "@/stores";
 import SvgIcon from "@/components/Global/SvgIcon";
 import userSignIn from "@/utils/userSignIn";
+import settings from "@/components/Modal/Settings.vue"
 
 const data = siteData();
 const router = useRouter();
-const settings = siteSettings();
+const setting = siteSettings();
+const settingsRef = ref(null); // 全局设置
 const { userLoginStatus, userData, userLikeData } = storeToRefs(data);
-const { themeType } = storeToRefs(settings);
+const { themeType } = storeToRefs(setting);
 
 // 菜单数据
 const userMenuShow = ref(false);
@@ -158,7 +162,8 @@ const userMenuSelect = (key) => {
   switch (key) {
     // 明暗切换
     case "darkOrlight":
-      settings.setThemeType(themeType.value === "light" ? "dark" : "light");
+      // settings.setThemeType(themeType.value === "light" ? "dark" : "light");
+      $message.error("此功能已被禁用!");
       break;
     // 登录登出
     case "logoutOrlogin":
@@ -166,7 +171,9 @@ const userMenuSelect = (key) => {
       break;
     // 全局设置
     case "setting":
-      router.push("/setting");
+      if (settingsRef.value) {
+        settingsRef.value.showModal();
+      }
       break;
     default:
       break;

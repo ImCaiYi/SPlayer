@@ -59,18 +59,19 @@
       <Transition name="fade" mode="out-in">
         <div v-show="playerControlShow" class="menu">
           <div class="left">
+            <!-- 设置按钮 -->
+            <n-icon size="28" @click="showSettings">
+              <SvgIcon icon="round-settings" />
+            </n-icon>
             <!-- 歌词模式 -->
             <n-icon
               v-if="isHasLrc && playMode !== 'dj'"
               :class="['lrc-open', { open: pureLyricMode }]"
               size="28"
               @click="pureLyricMode = !pureLyricMode"
+              class="settings-icon"
             >
               <SvgIcon icon="lrc-text" />
-            </n-icon>
-            <!-- 设置按钮 -->
-            <n-icon size="28" @click="showSettings" class="settings-icon">
-              <SvgIcon icon="round-settings" />
             </n-icon>
           </div>
           <div class="center" />
@@ -552,6 +553,10 @@ onUnmounted(() => {
       transition:
         transform 0.3s,
         opacity 0.3s;
+      margin-right: -20px;
+      @media (min-width: 700px) {
+        margin-left: -75px;
+      }
       .data {
         width: 70%;
         max-width: 55vh;
@@ -676,6 +681,7 @@ onUnmounted(() => {
     .right {
       width: 50%;
       transition: width 0.3s;
+      margin-left: -20px;
       .data {
         padding: 0 80px 0 24px;
         margin-bottom: 26px;
@@ -923,7 +929,7 @@ onUnmounted(() => {
 /* AMLL歌词样式 */
 .amll-lyric-container {
   position: relative;
-  width: 100%;
+  width: calc(100vh - 90px);
   height: calc(100vh - 200px);
   overflow: hidden;
   margin-bottom: 20px;
@@ -932,7 +938,6 @@ onUnmounted(() => {
     width: 100%;
     height: calc(100vh - 200px);
     position: relative;
-    padding: 0 20px;
     box-sizing: border-box;
     overflow: visible;
     /* 确保内容在容器内正确显示 */
@@ -945,7 +950,6 @@ onUnmounted(() => {
     :deep(.am-lyric) {
       height: calc(100vh - 250px);
       margin: 0;
-      padding: 0 80px;
       div {
         transform-origin: center !important;
       }
